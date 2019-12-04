@@ -5,10 +5,12 @@ R2=$2
 BARCODE=$3
 PID=$4
 
-CreateKmerList.dist/CreateKmerList.exe -m ${BARCODE} -o ${BARCODE}.Kmer -p ${PID}
-MakeAssignation.dist/MakeAssignation.exe -1 ${R1} -2 ${R2} -k ${BARCODE}.Kmer -p ${PID}
-CutReads.dist/CutReads.exe -f ${R1} -r ${PID}_Hyper_Identified.tsv -p ${PID}
-CutReads.dist/CutReads.exe -f ${R2} -r ${PID}_Hyper_Identified.tsv -p ${PID}
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+${DIR}/CreateKmerList.dist/CreateKmerList.exe -m ${BARCODE} -o ${BARCODE}.Kmer -p ${PID}
+${DIR}/MakeAssignation.dist/MakeAssignation.exe -1 ${R1} -2 ${R2} -k ${BARCODE}.Kmer -p ${PID}
+${DIR}/CutReads.dist/CutReads.exe -f ${R1} -r ${PID}_Hyper_Identified.tsv -p ${PID}
+${DIR}/CutReads.dist/CutReads.exe -f ${R2} -r ${PID}_Hyper_Identified.tsv -p ${PID}
 
 echo "------ Write output ------"
 cat ${PID}_Hyper_Identified.tsv ${PID}_Hypo_2_Identified.tsv ${PID}_Ambiguous_2.tsv ${PID}_Unidentified.tsv > ${PID}_Demultiplexing_Hyper.tsv
