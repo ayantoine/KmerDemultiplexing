@@ -134,7 +134,7 @@ def ProcessFastq1(dKmer,dEndIndex,sFastq): #,iIndex):
 		if iCount%4==1:
 			iSeqCount+=1
 			if iSeqCount%VERBOSE==0:
-				print("Fastq1 : {} sequences reached...".format(iSeqCount))
+				print("{} : {} sequences reached...".format(sFastq,iSeqCount))
 			sSeqId=sLine[1:]
 			sSeqCommonId=sSeqId.split(" ")[0]
 			sSeqSuffix=sSeqId.split(" ")[1]
