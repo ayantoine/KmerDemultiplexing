@@ -48,9 +48,6 @@ parser.add_option("-1","--fastq1", dest="fastq1")
 parser.add_option("-2","--fastq2", dest="fastq2")
 parser.add_option("-k","--kmerlist", dest="kmerlist")
 parser.add_option("-p","--pid", dest="pid")
-# parser.add_option("-d","--workdir", dest="workdir")
-# parser.add_option("-t","--tagfile", dest="tagfile")
-# parser.add_option("-i","--index", dest="index")
 
 (options, args) = parser.parse_args()
 
@@ -65,29 +62,6 @@ if not sFastq2:
 sKmerList=options.kmerlist
 if not sKmerList:
 	exit("Error : no kmerlist -k defined, process broken")
-
-# sWorkDir=options.workdir
-# if not sWorkDir:
-	# exit("Error : no workdir -d defined, process broken")
-
-# sTagFile=options.tagfile
-# if not sTagFile:
-	# exit("Error : no tagfile -t defined, process broken")
-	
-# sIndex=options.index
-# if not sIndex:
-	# exit("Error : no index -i defined, process broken")
-# try:
-	# iIndex=int(sIndex)
-# except ValueError:
-	# exit("Error : index -i must be an integer, process broken")
-
-# sHyperName=sWorkDir+"/"+str(iIndex)+"_"+HYPER_SUFFIX
-# sHypo1Name=sWorkDir+"/"+str(iIndex)+"_"+HYPO1_SUFFIX
-# sHypo2Name=sWorkDir+"/"+str(iIndex)+"_"+HYPO2_SUFFIX
-# sAmbiguous1Name=sWorkDir+"/"+str(iIndex)+"_"+AMBIGUOUS1_SUFFIX
-# sAmbiguous2Name=sWorkDir+"/"+str(iIndex)+"_"+AMBIGUOUS2_SUFFIX
-# sUnidentifiedName=sWorkDir+"/"+str(iIndex)+"_"+UNIDENTIFIED_SUFFIX
 
 sPid=options.pid
 if not sPid:
@@ -126,10 +100,6 @@ def ProcessFastq1(dKmer,dEndIndex,sFastq): #,iIndex):
 	
 	for sNewLine in open(sFastq):
 		iCount+=1
-		# if iCount<iIndex*SEQ_BY_TASK:
-			# continue
-		# elif iCount>=(iIndex+1)*SEQ_BY_TASK:
-			# break
 		sLine=sNewLine.strip()
 		if iCount%4==1:
 			iSeqCount+=1
@@ -202,10 +172,6 @@ def ProcessFastq2(dKmer,dEndIndex,sFastq,dSeq1): #,iIndex):
 	iSeqCount=0
 	for sNewLine in open(sFastq):
 		iCount+=1
-		# if iCount<iIndex*SEQ_BY_TASK:
-			# continue
-		# elif iCount>=(iIndex+1)*SEQ_BY_TASK:
-			# break
 		sLine=sNewLine.strip()
 		if iCount%4==1:
 			iSeqCount+=1
@@ -248,18 +214,13 @@ def ProcessFastq2(dKmer,dEndIndex,sFastq,dSeq1): #,iIndex):
 	AMBIGUOUS1PATH.close()
 	AMBIGUOUS2PATH.close()
 	UNIDENTIFIEDPATH.close()
-
-# def CreateTag(sName):
-	# FILE=open(sName,"w")
-	# FILE.close()
 		
 ########################################################################
 #MAIN
 if __name__ == "__main__":
 	dKmerRef, dKmerEndIndex=LoadKmerFile(sKmerList)
-	dSeqId2Sample=ProcessFastq1(dKmerRef,dKmerEndIndex,sFastq1)#,iIndex)
-	ProcessFastq2(dKmerRef,dKmerEndIndex,sFastq2,dSeqId2Sample)#,iIndex)
-	# CreateTag(sTagFile)
+	dSeqId2Sample=ProcessFastq1(dKmerRef,dKmerEndIndex,sFastq1)
+	ProcessFastq2(dKmerRef,dKmerEndIndex,sFastq2,dSeqId2Sample)
 
 ########################################################################    
 iTime2=time.time()
